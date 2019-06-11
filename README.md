@@ -23,13 +23,20 @@ It has an accessible section on
 [how to run in Cloud Foundry](https://github.com/cloudfoundry-samples/spring-music#running-the-application-on-cloud-foundry),
 and we can follow the procedure outlined there.
 
-MyBatis (leave this to local team)
-
 Alternatively, we can use MyBatis as our persistence framework.  Note that [Spring Initializr](https://start.spring.io)
 has support for MyBatis.
 Here are a couple of references which may be of help:
 
 * https://github.com/mybatis/spring-boot-starter/wiki/Quick-Start
 * http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/
+
+### CLI support for scripting
+
+If you have the [`cf` CLI](https://github.com/cloudfoundry/cli/releases) installed, and have created
+a MySQL instance (in this example, the instance is named _db-small-dev_), you can access this instance
+for CLI interaction, including scripting, like this:
+```
+$ cf mysql db-small-dev < some_sql_commands.sql
+```
 
 

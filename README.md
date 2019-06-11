@@ -49,7 +49,7 @@ Here are the scenarios we seek to address:
 * Concurrent heavy read and heavy write
 
 Pivotal MySQL offers three [workload profiles](https://docs.pivotal.io/p-mysql/2-5/change-default.html#workload)
-for tuning to accommodate scenarios like this.  Examples of applying one of these worload profiles can be seen
+for tuning to accommodate scenarios like this.  Examples of applying one of these workload profiles can be seen
 [here](https://docs.pivotal.io/p-mysql/2-5/change-default.html#defaults).  The three options for `workload` are
 `mixed`, `read-heavy`, and `write-heavy`, and these can be applied either at service creation time (see below)
 or via `update-service`:

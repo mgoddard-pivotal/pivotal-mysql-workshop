@@ -184,4 +184,11 @@ mysql> select count(*) from beer;
 mysql>
 ```
 
+### Demonstrate transparent impact / level of impact to application during the following:
+
+* Application perform read & write during DB Upgrade / Patching
+* Application perform read & write during DB Recovery
+* Application perform read & write during DB Swinging (e.g. with leader/follower, taking leader down, promoting
+follower to leader)
+
 

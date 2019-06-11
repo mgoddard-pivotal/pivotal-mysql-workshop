@@ -39,6 +39,24 @@ for CLI interaction, including scripting, like this:
 $ cf mysql db-small-dev < beer_ddl.sql
 ```
 
+### Demonstrate ability and performance to handle concurrent read/write from application
+
+Here are the scenarios we seek to address:
+
+* Concurrent read and write
+* Concurrent read and when there is heavy writing
+* Concurrent write and when there is heavy reading
+* Concurrent heavy read and heavy write
+
+Pivotal MySQL offers three [workload profiles](https://docs.pivotal.io/p-mysql/2-5/change-default.html#workload)
+for tuning to accommodate scenarios like this.  Examples of applying one of these worload profiles can be seen
+[here](https://docs.pivotal.io/p-mysql/2-5/change-default.html#defaults).  The three options for `workload` are
+`mixed`, `read-heavy`, and `write-heavy`, and these can be applied either at service creation time (see below)
+or via `update-service`:
+```
+$ cf create-service p.mysql dev-db-medium dev-002 -c '{ "workload": "write-heavy" }'
+```
+
 ### Demonstrate ability and performance of transaction rollback
 
 This part inserts data into the _beer_ table created above, so ensure you have run that step before working

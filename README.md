@@ -59,9 +59,9 @@ $ cf create-service p.mysql dev-db-medium dev-002 -c '{ "workload": "write-heavy
 
 The Pivotal MySQL team uses sysbench to benchmark MySQL.  The approach is documented
 [here](https://www.howtoforge.com/how-to-benchmark-your-system-cpu-file-io-mysql-with-sysbench#-mysql-benchmark)
-and the project's GitHub repo is [here](https://github.com/akopytov/sysbench).  It looks like there is an
-Ubuntu package available, so we should try to BOSH SSH into one of our MySQL instances, install sysbench, and
-run the MySQL suite.  I'll leave this as a TODO for the moment and try to get back to it.
+and the project's GitHub repo is [here](https://github.com/akopytov/sysbench).  It looks like there is a
+[Docker image](https://hub.docker.com/r/perconalab/sysbench/) available, so we could try running it this way,
+pushing the Docker image to PCF.  TODO
 
 ### Demonstrate ability and performance of transaction rollback
 

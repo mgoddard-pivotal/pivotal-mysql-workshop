@@ -57,6 +57,12 @@ or via `update-service`:
 $ cf create-service p.mysql dev-db-medium dev-002 -c '{ "workload": "write-heavy" }'
 ```
 
+The Pivotal MySQL team uses sysbench to benchmark MySQL.  The approach is documented
+[here](https://www.howtoforge.com/how-to-benchmark-your-system-cpu-file-io-mysql-with-sysbench#-mysql-benchmark)
+and the project's GitHub repo is [here](https://github.com/akopytov/sysbench).  It looks like there is an
+Ubuntu package available, so we should try to BOSH SSH into one of our MySQL instances, install sysbench, and
+run the MySQL suite.  I'll leave this as a TODO for the moment and try to get back to it.
+
 ### Demonstrate ability and performance of transaction rollback
 
 This part inserts data into the _beer_ table created above, so ensure you have run that step before working

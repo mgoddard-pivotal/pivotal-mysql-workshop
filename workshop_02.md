@@ -52,9 +52,68 @@
 
   ```
 * Create tables/accounts on it
+Here is a [Reference](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html#ssh-tunnel)
+on using an SSH tunnel to access a DB instance.
+  - Create a service key for the DB instance:
+    ```
+    $ cf create-service-key db-small-dev db-small-dev-key
+    Creating service key db-small-dev-key for service instance db-small-dev as mgoddard...
+    OK
 
-[Reference](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html#ssh-tunnel)
-on using an SSH tunnel to access a DB instance
+    ```
+  - Then, retrieve the service key:
+    ```
+    $ cf service-key db-small-dev db-small-dev-key
+    Getting key db-small-dev-key for service instance db-small-dev as mgoddard...
+
+    {
+     "hostname": "q-n3s3y1.q-g204.bosh",
+     ... [redacted]
+    ```
+  - Next, set up an SSH tunnel to the app instance which is bound to this DB instance:
+    ```
+    $ cf ssh -L 13306:q-n3s3y1.q-g204.bosh:3306 spring-music
+    vcap@550dfdb5-71aa-4325-4b9d-830a:~$
+    ```
+  - Finally, connect to the DB instance using the credentials provided in the service key:
+    ```
+    $ mysql -u 98d0c215c22942138a8ae22ebbfadceb -h 0 -p -P 13306 service_instance_db
+    Enter password:
+    Reading table information for completion of table and column names
+    You can turn off this feature to get a quicker startup with -A
+
+    Welcome to the MySQL monitor.  Commands end with ; or \g.
+    Your MySQL connection id is 37556
+    Server version: 5.7.23-23-log MySQL Community Server (GPL)
+
+    Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+    Oracle is a registered trademark of Oracle Corporation and/or its
+    affiliates. Other names may be trademarks of their respective
+    owners.
+
+    Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+    mysql>
+    ```
+  - At this point, you are able to create tables, etc.:
+    ```
+    mysql> create table user (id int not null auto_increment, first varchar(255), last varchar(255), primary key (id));
+    Query OK, 0 rows affected (0.11 sec)
+
+    mysql> desc user;
+    +-------+--------------+------+-----+---------+----------------+
+    | Field | Type         | Null | Key | Default | Extra          |
+    +-------+--------------+------+-----+---------+----------------+
+    | id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+    | first | varchar(255) | YES  |     | NULL    |                |
+    | last  | varchar(255) | YES  |     | NULL    |                |
+    +-------+--------------+------+-----+---------+----------------+
+    3 rows in set (0.10 sec)
+
+    mysql>
+
+    ```
 
 ### High Availability
 

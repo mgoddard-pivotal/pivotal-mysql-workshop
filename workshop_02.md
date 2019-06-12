@@ -4,21 +4,28 @@
 
 ### Setup – HA cluster (Galera)
 * Create an instance of an HA MySQL DB
-  We can do this using the command line:
+  We can get this done using the Apps Manager GUI, or we can use the command line, as shown here:
   ```
   $ cf create-service p.mysql db-ha-galera ha-mysql
   Creating service instance ha-mysql in org pde / space dev as mgoddard...
   OK
 
   Create in progress. Use 'cf services' or 'cf service ha-mysql' to check operation status.
+
   $ cf services
   Getting services in org pde / space dev as mgoddard...
 
   name           service   plan           bound apps     last operation       broker                   upgrade available
   db-small-dev   p.mysql   single-node    spring-music   create succeeded     dedicated-mysql-broker
   ha-mysql       p.mysql   db-ha-galera                  create in progress   dedicated-mysql-broker
+
+  $ cf services
+  Getting services in org pde / space dev as mgoddard...
+
+  name           service   plan           bound apps     last operation     broker                   upgrade available
+  db-small-dev   p.mysql   single-node    spring-music   create succeeded   dedicated-mysql-broker
+  ha-mysql       p.mysql   db-ha-galera                  create succeeded   dedicated-mysql-broker
   ```
-  or via the Apps Manager GUI.
 
 ### Database client operations
 

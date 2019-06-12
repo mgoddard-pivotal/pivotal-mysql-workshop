@@ -63,12 +63,10 @@
 
 * This is an opinionated offering, the tile, but we can use indexes, compression, and choice of instance type
 for tuning to workload requirements.
-
 * Create a huge table (don’t create index)
 * Inject 1 million rows
 * Perform a select with where clause – full table scan
 * Facility to show the DB activities, breakdown CPU / Memory / IO info, execution plan, tuning required etc.
-
 * Create the index as suggested
 * Run query again
 * Facility to show the DB activities, breakdown CPU / Memory / IO info, execution plan, tuning required etc. of the tuned query

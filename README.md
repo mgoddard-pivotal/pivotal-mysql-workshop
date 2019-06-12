@@ -3,6 +3,9 @@
 What follows is a set of demos / exercises which occur in random order.
 We'll restructure as needed to organize into themes, if that makes sense.
 
+[Here](./video_list.md) is a list of demo videos, with descriptions, illustrating some of the key
+points of this workshop.
+
 ### Demonstrate ability to identify application session
 ```
 mysql> SELECT connection_id();

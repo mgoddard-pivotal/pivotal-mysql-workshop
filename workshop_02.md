@@ -68,9 +68,17 @@ on using an SSH tunnel to access a DB instance.
 
     {
      "hostname": "q-n3s3y1.q-g204.bosh",
-     ... [redacted]
+     "jdbcUrl": "jdbc:mysql://q-n3s3y1.q-g204.bosh:3306/service_instance_db?user=98d0c215c22942138a8ae22ebbfadceb\u0026password=y3ntlbym9c1z1dyx\u0026useSSL=false",
+     "name": "service_instance_db",
+     "password": "y3ntlbym9c1z1dyx",
+     "port": 3306,
+     "uri": "mysql://98d0c215c22942138a8ae22ebbfadceb:y3ntlbym9c1z1dyx@q-n3s3y1.q-g204.bosh:3306/service_instance_db?reconnect=true",
+     "username": "98d0c215c22942138a8ae22ebbfadceb"
+    }
     ```
-  - Next, set up an SSH tunnel to the app instance which is bound to this DB instance:
+  - Using the value from the `hostname` field along with the name of the bound app, set up an SSH tunnel
+    to the app instance which is bound to this DB instance (NOTE: port `13306` will be the port we use on
+    this end of the tunnel):
     ```
     $ cf ssh -L 0.0.0.0:13306:q-n3s3y1.q-g204.bosh:3306 spring-music
     vcap@550dfdb5-71aa-4325-4b9d-830a:~$
@@ -80,8 +88,8 @@ on using an SSH tunnel to access a DB instance.
     one from which the SSH tunnel was initiated, in which case the `-h 0` would be modified
     to specify the IP address of this host:
     ```
-    $ mysql -u 98d0c215c22942138a8ae22ebbfadceb -h 0 -p -P 13306 service_instance_db
-    Enter password:
+    $ export MYSQL_PWD=y3ntlbym9c1z1dyx # Bad for security, but ok for this demo
+    $ mysql -u 98d0c215c22942138a8ae22ebbfadceb -h 0 -P 13306 service_instance_db
     Reading table information for completion of table and column names
     You can turn off this feature to get a quicker startup with -A
 
@@ -99,23 +107,53 @@ on using an SSH tunnel to access a DB instance.
 
     mysql>
     ```
-  - At this point, you are able to create tables, etc.:
+  - At this point, you are able to create tables, etc.  Let's go ahead and create some tables
+    we'll use later on.  The DDL is available [here](./osm_tables.sql).
     ```
-    mysql> create table user (id int not null auto_increment, first varchar(255), last varchar(255), primary key (id));
+    mysql> DROP TABLE IF EXISTS osm;
+    Query OK, 0 rows affected, 1 warning (0.11 sec)
+
+    mysql> CREATE TABLE osm /* MySQL */
+        -> (
+        ->   id BIGINT PRIMARY KEY
+        ->   , date_time DATETIME
+        ->   , uid BIGINT
+        ->   , lat DOUBLE PRECISION
+        ->   , lon DOUBLE PRECISION
+        ->   , name TEXT
+        -> ) ENGINE=INNODB;
     Query OK, 0 rows affected (0.11 sec)
 
-    mysql> desc user;
-    +-------+--------------+------+-----+---------+----------------+
-    | Field | Type         | Null | Key | Default | Extra          |
-    +-------+--------------+------+-----+---------+----------------+
-    | id    | int(11)      | NO   | PRI | NULL    | auto_increment |
-    | first | varchar(255) | YES  |     | NULL    |                |
-    | last  | varchar(255) | YES  |     | NULL    |                |
-    +-------+--------------+------+-----+---------+----------------+
-    3 rows in set (0.10 sec)
+    mysql>
+    mysql> -- Intermediate table, for loading
+    mysql> DROP TABLE IF EXISTS osm_load;
+    Query OK, 0 rows affected, 1 warning (0.10 sec)
+
+    mysql> CREATE TABLE osm_load /* MySQL */
+        -> (
+        ->   id BIGINT PRIMARY KEY
+        ->   , date_time TEXT /* DATETIME */
+        ->   , uid BIGINT
+        ->   , lat DOUBLE PRECISION
+        ->   , lon DOUBLE PRECISION
+        ->   , name TEXT
+        -> ) ENGINE=INNODB;
+    Query OK, 0 rows affected (0.11 sec)
 
     mysql>
+    mysql> DROP TABLE IF EXISTS osm_k_v;
+    Query OK, 0 rows affected, 1 warning (0.11 sec)
 
+    mysql> CREATE TABLE osm_k_v
+        -> (
+        ->   id BIGINT
+        ->   , k VARCHAR(64)
+        ->   , v VARCHAR(512)
+        ->   , FOREIGN KEY (id) REFERENCES osm(id) ON DELETE CASCADE
+        -> ) ENGINE=INNODB;
+    Query OK, 0 rows affected (0.12 sec)
+
+    mysql>
     ```
 
 ### High Availability
@@ -155,12 +193,32 @@ on using an SSH tunnel to access a DB instance.
 
 ### Demonstrate the monitoring and performance tuning
 
-* This is an opinionated offering, the tile, but we can use indexes, compression, and choice of instance type
-for tuning to workload requirements.
-* Create a huge table (don’t create index)
-* Inject 1 million rows
+This is an opinionated offering, the tile, but we can use indexes, compression, and choice of instance type
+for tuning to workload requirements.  Also, the notion of
+[workload profiles](https://docs.pivotal.io/p-mysql/2-5/change-default.html#workload) may be useful here.
+
+For this part, we will use a `mysql` command line client and the SSH tunnel created earlier (see above).
+This will run smoother if we use two terminals.  In one, we'll log in using the `mysql` client, and stay
+logged in (just like in the earlier section):
+```
+$ export MYSQL_PWD=y3ntlbym9c1z1dyx
+$ mysql -u 98d0c215c22942138a8ae22ebbfadceb -h 0 -P 13306 service_instance_db
+
+```
+* Create a huge table (don’t create index): we did this earlier (see above).
+* Inject 1 million rows: in a second terminal, adjust [this script](./load_osm_data_mysql.sh) as necessary,
+  then run it:
+  ```
+  $ ./load_osm_data_mysql.sh
+  ```
 * Perform a select with where clause – full table scan
 * Facility to show the DB activities, breakdown CPU / Memory / IO info, execution plan, tuning required etc.
+  For this, we can install the [cf CLI plugin](https://github.com/cloudfoundry/log-cache-cli) for
+  [Log Cache](https://github.com/cloudfoundry/log-cache).  Here is an example of using it to tail (with the `-f`
+  option) the logs from the MySQL DB instance _db-small-dev_:
+  ```
+  $ cf tail -f db-small-dev
+  ```
 * Create the index as suggested
 * Run query again
 * Facility to show the DB activities, breakdown CPU / Memory / IO info, execution plan, tuning required etc. of the tuned query

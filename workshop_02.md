@@ -72,7 +72,7 @@ on using an SSH tunnel to access a DB instance.
     ```
   - Next, set up an SSH tunnel to the app instance which is bound to this DB instance:
     ```
-    $ cf ssh -L 13306:q-n3s3y1.q-g204.bosh:3306 spring-music
+    $ cf ssh -L 0.0.0.0:13306:q-n3s3y1.q-g204.bosh:3306 spring-music
     vcap@550dfdb5-71aa-4325-4b9d-830a:~$
     ```
   - Finally, connect to the DB instance using the credentials provided in the service key:

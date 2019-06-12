@@ -75,7 +75,10 @@ on using an SSH tunnel to access a DB instance.
     $ cf ssh -L 0.0.0.0:13306:q-n3s3y1.q-g204.bosh:3306 spring-music
     vcap@550dfdb5-71aa-4325-4b9d-830a:~$
     ```
-  - Finally, connect to the DB instance using the credentials provided in the service key:
+  - Finally, connect to the DB instance using the credentials provided in the service key,
+    and note that it's possible to connect from other machines on the same network as the
+    one from which the SSH tunnel was initiated, in which case the `-h 0` would be modified
+    to specify the IP address of this host:
     ```
     $ mysql -u 98d0c215c22942138a8ae22ebbfadceb -h 0 -p -P 13306 service_instance_db
     Enter password:

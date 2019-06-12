@@ -198,6 +198,8 @@ for tuning to workload requirements.  Also, the notion of
 [workload profiles](https://docs.pivotal.io/p-mysql/2-5/change-default.html#workload) may be useful here.
 
 For this part, we will use a `mysql` command line client and the SSH tunnel created earlier (see above).
+We'll borrow data, DDL, and SQL queries from
+[this example](https://github.com/mgoddard-pivotal/bosh-database-deployment/blob/master/data_load_and_query_example.md).
 This will run smoother if we use two terminals.  In one, we'll log in using the `mysql` client, and stay
 logged in (just like in the earlier section):
 ```
@@ -210,8 +212,55 @@ $ mysql -u 98d0c215c22942138a8ae22ebbfadceb -h 0 -P 13306 service_instance_db
   then run it:
   ```
   $ ./load_osm_data_mysql.sh
+    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                   Dload  Upload   Total   Spent    Left  Speed
+  100 12.9M  100 12.9M    0     0   454k      0  0:00:29  0:00:29 --:--:--  485k
+  ERROR 1062 (23000) at line 1: Duplicate entry '105' for key 'PRIMARY'
+    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                   Dload  Upload   Total   Spent    Left  Speed
+  100 16.4M  100 16.4M    0     0   242k      0  0:01:09  0:01:09 --:--:--  342k
   ```
-* Perform a select with where clause – full table scan
+* Perform a select with where clause – full table scan:
+  ```
+  mysql> select v, count(*) from osm_k_v where k = 'amenity' group by 1 order by 2 desc limit 30;
+  +--------------------+----------+
+  | v                  | count(*) |
+  +--------------------+----------+
+  | pub                |    23760 |
+  | restaurant         |    11941 |
+  | fast_food          |    11705 |
+  | place_of_worship   |     9857 |
+  | cafe               |     9799 |
+  | bank               |     4118 |
+  | pharmacy           |     3428 |
+  | school             |     3367 |
+  | post_office        |     2559 |
+  | fuel               |     2166 |
+  | bar                |     2036 |
+  | parking            |     1996 |
+  | doctors            |     1293 |
+  | library            |     1168 |
+  | dentist            |      861 |
+  | kindergarten       |      768 |
+  | public_building    |      747 |
+  | taxi               |      747 |
+  | post_box           |      707 |
+  | bicycle_rental     |      701 |
+  | bicycle_parking    |      698 |
+  | hospital           |      577 |
+  | motorcycle_parking |      563 |
+  | community_centre   |      561 |
+  | police             |      527 |
+  | townhall           |      497 |
+  | veterinary         |      486 |
+  | nightclub          |      464 |
+  | atm                |      445 |
+  | recycling          |      443 |
+  +--------------------+----------+
+  30 rows in set (1.53 sec)
+
+  mysql>
+  ```
 * Facility to show the DB activities, breakdown CPU / Memory / IO info, execution plan, tuning required etc.
   For this, we can install the [cf CLI plugin](https://github.com/cloudfoundry/log-cache-cli) for
   [Log Cache](https://github.com/cloudfoundry/log-cache).  Here is an example of using it to tail (with the `-f`
@@ -219,9 +268,49 @@ $ mysql -u 98d0c215c22942138a8ae22ebbfadceb -h 0 -P 13306 service_instance_db
   ```
   $ cf tail -f db-small-dev
   ```
-* Create the index as suggested
-* Run query again
-* Facility to show the DB activities, breakdown CPU / Memory / IO info, execution plan, tuning required etc. of the tuned query
-* Index rebuild if applicable
-* Table rebuild if applicable
+  Here is an explain plan of that query:
+  ```
+  mysql> explain select v, count(*) from osm_k_v where k = 'amenity' group by 1 order by 2 desc limit 30;
+  +----+-------------+---------+------------+------+---------------+------+---------+------+---------+----------+----------------------------------------------+
+  | id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows    | filtered | Extra                                        |
+  +----+-------------+---------+------------+------+---------------+------+---------+------+---------+----------+----------------------------------------------+
+  |  1 | SIMPLE      | osm_k_v | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 3064785 |    10.00 | Using where; Using temporary; Using filesort |
+  +----+-------------+---------+------------+------+---------------+------+---------+------+---------+----------+----------------------------------------------+
+  1 row in set, 1 warning (0.10 sec)
+
+  mysql>
+  ```
+* Create the index as suggested:
+  ```
+  mysql> CREATE INDEX osm_k_idx ON osm_k_v(k);
+  Query OK, 0 rows affected (16.41 sec)
+  Records: 0  Duplicates: 0  Warnings: 0
+
+  mysql> CREATE INDEX osm_v_idx ON osm_k_v(v);
+  Query OK, 0 rows affected (13.53 sec)
+  Records: 0  Duplicates: 0  Warnings: 0
+
+  mysql>
+  ```
+* Run query again. Same query and results as above, but paying attention to that last line:
+  ```
+  30 rows in set (0.62 sec)
+  ```
+* Compress that table?  Would it help speed up that query?
+  ```
+  mysql> ALTER TABLE osm_k_v COMPRESSION="lz4";
+  Query OK, 0 rows affected (0.10 sec)
+  Records: 0  Duplicates: 0  Warnings: 0
+
+  mysql> OPTIMIZE TABLE osm_k_v;
+  +-----------------------------+----------+----------+-------------------------------------------------------------------+
+  | Table                       | Op       | Msg_type | Msg_text                                                          |
+  +-----------------------------+----------+----------+-------------------------------------------------------------------+
+  | service_instance_db.osm_k_v | optimize | note     | Table does not support optimize, doing recreate + analyze instead |
+  | service_instance_db.osm_k_v | optimize | status   | OK                                                                |
+  +-----------------------------+----------+----------+-------------------------------------------------------------------+
+  2 rows in set (47.41 sec)
+
+  mysql>
+  ```
 

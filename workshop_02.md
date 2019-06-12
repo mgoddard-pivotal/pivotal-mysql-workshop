@@ -200,6 +200,15 @@ for tuning to workload requirements.  Also, the notion of
 For this part, we will use a `mysql` command line client and the SSH tunnel created earlier (see above).
 We'll borrow data, DDL, and SQL queries from
 [this example](https://github.com/mgoddard-pivotal/bosh-database-deployment/blob/master/data_load_and_query_example.md).
+
+**Caveat:** Loading data the way it's being done below requires a specific setting on the MySQL tile
+in Ops Manager.  To do this, click on the MySQL tile, then select _Mysql Configuration_, then click
+the _Enable Local Infile_ box (see below), then _Save_.  Return to the installation dashboard, click
+_REVIEW PENDING CHANGES_, and then _APPLY CHANGES_.
+
+![Enable Local Infile](./enable_local_infile.png)
+
+
 This will run smoother if we use two terminals.  In one, we'll log in using the `mysql` client, and stay
 logged in (just like in the earlier section):
 ```
@@ -295,6 +304,18 @@ $ mysql -u 98d0c215c22942138a8ae22ebbfadceb -h 0 -P 13306 service_instance_db
 * Run query again. Same query and results as above, but paying attention to that last line:
   ```
   30 rows in set (0.62 sec)
+  ```
+* Get an explain plan now that there are indexes:
+  ```
+  mysql> explain select v, count(*) from osm_k_v where k = 'amenity' group by 1 order by 2 desc limit 30;
+  +----+-------------+---------+------------+------+---------------------+-----------+---------+-------+--------+----------+--------------------------------------------------------+
+  | id | select_type | table   | partitions | type | possible_keys       | key       | key_len | ref   | rows   | filtered | Extra                                                  |
+  +----+-------------+---------+------------+------+---------------------+-----------+---------+-------+--------+----------+--------------------------------------------------------+
+  |  1 | SIMPLE      | osm_k_v | NULL       | ref  | osm_k_idx,osm_v_idx | osm_k_idx | 195     | const | 211424 |   100.00 | Using index condition; Using temporary; Using filesort |
+  +----+-------------+---------+------------+------+---------------------+-----------+---------+-------+--------+----------+--------------------------------------------------------+
+  1 row in set, 1 warning (0.10 sec)
+
+  mysql>
   ```
 * Compress that table?  Would it help speed up that query?
   ```

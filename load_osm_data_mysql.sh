@@ -28,6 +28,6 @@ EndOfSQL
 echo "DROP TABLE osm_load;" | mysql -h $db_host -P $port -u $user $db
 
 # Load the osm_k_v table.
-curl $osm_kv_url | zcat - | mysql --local-infile=1 -h $db_host -u $user $db \
+curl $osm_kv_url | zcat - | mysql --local-infile=1 -h $db_host -P $port -u $user $db \
   -e "LOAD DATA LOCAL INFILE '/dev/stdin' INTO TABLE osm_k_v FIELDS TERMINATED BY ',';"
 

@@ -12,5 +12,6 @@ of what takes place within each one.
    * Create a service key for the DB (Apps Manager)
    * Use the new credentials to connect an app to the follower
    * Enter data into the read/write app (connected to leader) and observe changes in read-only app connected to follower
+1. [Pivotal MySQL v2.4 failover (no rebind)](https://youtu.be/iOU41-kfjuQ)
 
 

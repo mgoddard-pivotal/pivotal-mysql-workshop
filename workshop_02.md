@@ -29,7 +29,32 @@
 
 ### Database client operations
 
+* Create accounts on it: this is done via a service binding.  You do that like so:
+  ```
+  $ cf bs spring-music ha-mysql
+  ```
+  You can then view the credentials for this service binding.  The `VCAP_SERVICES` environment
+  variable holds the credentials the app will use to access the service instance:
+  ```
+  $ cf env spring-music
+  Getting env variables for app spring-music in org pde / space dev as mgoddard...
+  OK
+
+  System-Provided:
+  {
+   "VCAP_SERVICES": {
+    "p.mysql": [
+     {
+      "binding_name": null,
+      "credentials": {
+       "hostname": "q-n3s3y1.q-g222.bosh",
+  ... [redacted for brevity]
+
+  ```
 * Create tables/accounts on it
+
+[Reference](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html#ssh-tunnel)
+on using an SSH tunnel to access a DB instance
 
 ### High Availability
 

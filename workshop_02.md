@@ -191,11 +191,17 @@ Backups are configurable through Operations Manager, and the settings apply glob
 instances.  Typically, they would be stored in the blob store of the IaaS in use; e.g. to S3 if
 running on Amazon EC2.  We can show this configuration using the Ops Man UI.
 
+[Here](https://docs.pivotal.io/p-mysql/2-5/backup-and-restore.html) is the documentation on backup
+and restore operations.
+
 * Do a full backup
   - This is handled by the platform, periodically, according to the _Cron Schedule_ specified in that
     backup configuration UI view.
+  - It is also possible to perform a manual back
 
 * Demonstrate the backup & recovery
+  - Backups are already done, per the scheduled operation, and are in S3
+  - Follow the steps under _Retrieve Backup Encryption Key_ in [this doc](https://docs.pivotal.io/p-mysql/2-5/backup-and-restore.html)
 
 * Inject activities into the DB
 

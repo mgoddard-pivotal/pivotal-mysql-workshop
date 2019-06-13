@@ -2,7 +2,7 @@
 
 ## Part 2
 
-### Setup – HA cluster (Galera)
+### Setup Galera HA cluster
 * Create an instance of an HA MySQL DB
   We can get this done using the Apps Manager GUI, or we can use the command line, as shown here:
   ```

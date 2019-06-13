@@ -26,6 +26,8 @@
   db-small-dev   p.mysql   single-node    spring-music   create succeeded   dedicated-mysql-broker
   ha-mysql       p.mysql   db-ha-galera                  create succeeded   dedicated-mysql-broker
   ```
+* If there is interest, walk through [this illustration](./galera_demo_round_robin.md) of the DNS round robin
+used to direct DB connection traffic.
 
 ### Database client operations
 

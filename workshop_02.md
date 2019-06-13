@@ -202,6 +202,7 @@ and restore operations.
 * Demonstrate the backup & recovery
   - Backups are already done, per the scheduled operation, and are in S3.
   - [This resource](./restore_from_backup.md) provides an example of working through the restore procedure.
+  - Finally, _developer-enabled restore_ is high on the MySQL team's roadmap.
 
 * Inject activities into the DB
 

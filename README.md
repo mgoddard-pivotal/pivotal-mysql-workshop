@@ -16,4 +16,5 @@ points of this workshop.
 
 * [Demo / exercise](./galera_demo_round_robin.md) on how round robin DNS works with Galera clusters
 * [Some Q&A](./galera_questions_answers.md) about Galera clusters
+* [Restoring from backup](./restore_from_backup.md)
 

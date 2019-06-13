@@ -197,7 +197,7 @@ and restore operations.
 * Do a full backup
   - This is handled by the platform, periodically, according to the _Cron Schedule_ specified in that
     backup configuration UI view.
-  - It is also possible to perform a manual back
+  - It is also possible to perform a manual backup
 
 * Demonstrate the backup & recovery
   - Backups are already done, per the scheduled operation, and are in S3.

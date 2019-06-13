@@ -70,5 +70,24 @@ Thu Jun 13 13:28:43 UTC 2019
 q-n3s3y1.q-g222.bosh has address 10.0.9.4
 q-n3s3y1.q-g222.bosh has address 10.0.8.7
 q-n3s3y1.q-g222.bosh has address 10.0.10.4
+...
 ```
+
+* At this point, you could look up which VM has one of the private IP addresses given here; say `10.0.9.4`,
+then use the IaaS console to kill / terminate the VM, then continue with this DNS resolution loop.  Note
+that it could be essential to have a MySQL client connected to see this effect, but you should observe
+something like the following (in the output below, the `host` command was manually invoked periodically):
+```
+vcap@e02c6c1d-bed2-40ba-5e38-7152:~$ host q-n3s3y1.q-g222.bosh
+q-n3s3y1.q-g222.bosh has address 10.0.8.7
+q-n3s3y1.q-g222.bosh has address 10.0.10.4
+vcap@e02c6c1d-bed2-40ba-5e38-7152:~$ host q-n3s3y1.q-g222.bosh
+q-n3s3y1.q-g222.bosh has address 10.0.8.7
+q-n3s3y1.q-g222.bosh has address 10.0.10.4
+vcap@e02c6c1d-bed2-40ba-5e38-7152:~$ host q-n3s3y1.q-g222.bosh
+q-n3s3y1.q-g222.bosh has address 10.0.8.7
+q-n3s3y1.q-g222.bosh has address 10.0.9.4
+q-n3s3y1.q-g222.bosh has address 10.0.10.4
+```
+Notice that node disappears for a time, then reappears after BOSH resurrects the VM.
 

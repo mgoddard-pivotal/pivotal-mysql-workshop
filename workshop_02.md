@@ -192,16 +192,19 @@ instances.  Typically, they would be stored in the blob store of the IaaS in use
 running on Amazon EC2.  We can show this configuration using the Ops Man UI.
 
 * Do a full backup
+
 This is handled by the platform, periodically, according to the _Cron Schedule_ specified in that
 backup configuration UI view.
 
 * Demonstrate the backup & recovery
+
 
 * Inject activities into the DB
 
 * Data is logically corrupted eg accidentally deleted
 
 * Perform point-in-time recovery to prior the deletion
+
 Point in time recovery (PITR) can be accomplished through a combination of recovery from a backup
 and replaying the binlogs from that point up to the point where the accidental operation occurred.
 Note that binlog access requires root/admin privileges on the MySQL isntance.

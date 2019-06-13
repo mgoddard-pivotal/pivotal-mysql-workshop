@@ -58,9 +58,12 @@ $ cf create-service p.mysql dev-db-medium dev-002 -c '{ "workload": "write-heavy
 
 The Pivotal MySQL team uses sysbench to benchmark MySQL.  The approach is documented
 [here](https://www.howtoforge.com/how-to-benchmark-your-system-cpu-file-io-mysql-with-sysbench#-mysql-benchmark)
-and the project's GitHub repo is [here](https://github.com/akopytov/sysbench).  It looks like there is a
-[Docker image](https://hub.docker.com/r/perconalab/sysbench/) available, so we could try running it this way,
-pushing the Docker image to PCF.  TODO
+and the project's GitHub repo is [here](https://github.com/akopytov/sysbench).  The team said the following
+regarding their approach to running this:
+```
+I don't think we tend to use Docker images to run sysbench. We tend to have it installed on the VM and run it
+locally against the server.
+```
 
 ### Demonstrate ability and performance of transaction rollback
 

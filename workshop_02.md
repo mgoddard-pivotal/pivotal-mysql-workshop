@@ -200,8 +200,8 @@ and restore operations.
   - It is also possible to perform a manual back
 
 * Demonstrate the backup & recovery
-  - Backups are already done, per the scheduled operation, and are in S3
-  - Follow the steps under _Retrieve Backup Encryption Key_ in [this doc](https://docs.pivotal.io/p-mysql/2-5/backup-and-restore.html)
+  - Backups are already done, per the scheduled operation, and are in S3.
+  - [This resource](./restore_from_backup.md) provides an example of working through the restore procedure.
 
 * Inject activities into the DB
 

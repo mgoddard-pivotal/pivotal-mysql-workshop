@@ -187,7 +187,13 @@ on using an SSH tunnel to access a DB instance.
 
 ### Backup & Restore
 
+Backups are configurable through Operations Manager, and the settings apply globally, to all DB
+instances.  Typically, they would be stored in the blob store of the IaaS in use; e.g. to S3 if
+running on Amazon EC2.  We can show this configuration using the Ops Man UI.
+
 * Do a full backup
+This is handled by the platform, periodically, according to the _Cron Schedule_ specified in that
+backup configuration UI view.
 
 * Demonstrate the backup & recovery
 

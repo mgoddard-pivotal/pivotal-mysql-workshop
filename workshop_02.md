@@ -273,7 +273,9 @@ $ mysql -u 98d0c215c22942138a8ae22ebbfadceb -h 0 -P 13306 service_instance_db
   mysql>
   ```
 * Facility to show the DB activities, breakdown CPU / Memory / IO info, execution plan, tuning required etc.
-  For this, we can install the [cf CLI plugin](https://github.com/cloudfoundry/log-cache-cli) for
+  The roadmap includes integrating
+  [_Percona Monitoring and Management_, or _PMM_](https://www.percona.com/doc/percona-monitoring-and-management/deploy/index.html)
+  but, for the time being, we can install the [cf CLI plugin](https://github.com/cloudfoundry/log-cache-cli) for
   [Log Cache](https://github.com/cloudfoundry/log-cache).  Here is an example of using it to tail (with the `-f`
   option) the logs from the MySQL DB instance _db-small-dev_:
   ```

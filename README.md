@@ -6,8 +6,14 @@ We'll restructure as needed to organize into themes, if that makes sense.
 [Here](./video_list.md) is a list of demo videos, with descriptions, illustrating some of the key
 points of this workshop.
 
+## Main flow, broken up into three sessions
+
 * [Workshop: Part 1](./workshop_01.md)
 * [Workshop: Part 2](./workshop_02.md)
 * [Workshop: Part 3](./workshop_03.md)
 
+## Appendix
+
+* [Demo / exercise](./galera_demo_round_robin.md) on how round robin DNS works with Galera clusters
+* [Some Q&A](./galera_questions_answers.md) about Galera clusters
 

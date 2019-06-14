@@ -299,8 +299,9 @@ $ mysql -u 98d0c215c22942138a8ae22ebbfadceb -h 0 -P 13306 service_instance_db
   The roadmap includes integrating
   [_Percona Monitoring and Management_, or _PMM_](https://www.percona.com/doc/percona-monitoring-and-management/deploy/index.html)
   but, for the time being, we can install the [cf CLI plugin](https://github.com/cloudfoundry/log-cache-cli) for
-  [Log Cache](https://github.com/cloudfoundry/log-cache).  Here is an example of using it to tail (with the `-f`
-  option) the logs from the MySQL DB instance _db-small-dev_:
+  [Log Cache](https://github.com/cloudfoundry/log-cache);
+  the KPIs are explained [here](https://docs.pivotal.io/p-mysql/2-5/monitor.html#kpi).
+  Here is an example of using it to tail (with the `-f` option) the logs from the MySQL DB instance _db-small-dev_:
   ```
   $ cf tail -f db-small-dev
   ```

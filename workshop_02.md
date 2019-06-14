@@ -218,8 +218,8 @@ and restore operations.
 
 ### Demonstrate the monitoring and performance tuning
 
-This is an opinionated offering, the tile, but we can use indexes, compression, and choice of instance type
-for tuning to workload requirements.  Also, the notion of
+This is an opinionated offering, the tile, but we can use indexes, compression, table partitioning,
+and choice of instance type for tuning to workload requirements.  Also, the notion of
 [workload profiles](https://docs.pivotal.io/p-mysql/2-5/change-default.html#workload) may be useful here.
 
 For this part, we will use a `mysql` command line client and the SSH tunnel created earlier (see above).
@@ -232,7 +232,6 @@ the _Enable Local Infile_ box (see below), then _Save_.  Return to the installat
 _REVIEW PENDING CHANGES_, and then _APPLY CHANGES_.
 
 ![Enable Local Infile](./enable_local_infile.png)
-
 
 This will run smoother if we use two terminals.  In one, we'll log in using the `mysql` client, and stay
 logged in (just like in the earlier section):

@@ -10,7 +10,8 @@ Refer to [this section](./workshop_02.md#setup-galera-ha-cluster).
 
 ### Data Migration after installation
 
-Export data from Postgres and import into MySQL.
+- Export data from Postgres and import into MySQL.
+- [MySQL Workbench](https://dev.mysql.com/doc/workbench/en/wb-migration-wizard-migration.html) may help here.
 
 ### Backup and Recovery
 
@@ -115,10 +116,12 @@ Ref. https://docs.oracle.com/cd/E12151_01/doc.150/e12155/oracle_mysql_compared.h
 ### Troubleshooting with logs
 
 * [Here's](https://dev.mysql.com/doc/refman/5.7/en/server-logs.html) a reference on MySQL logs
-* TODO: the method of accessing the logs is TBD (question out on Slack 14 June AM)
-* BOSH SSH into node, then look at them?
+* [Here](./access_mysql_instance_logs.md) is a walk-through of accessing MySQL instance logs.
 
 ### Support feature for installing DB in physical or virtual environment
+
+- Currently, Pivotal MySQL is installable only within a virtual environment
+- For physical (bare metal) installations, consider Pivotal Postgres
 
 ### Patch release frequency
 - Quarterly releases

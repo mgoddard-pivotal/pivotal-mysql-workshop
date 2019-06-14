@@ -11,7 +11,8 @@ Refer to [this section](./workshop_02.md#setup-galera-ha-cluster).
 ### Data Migration after installation
 
 - Export data from Postgres and import into MySQL.
-- [MySQL Workbench](https://dev.mysql.com/doc/workbench/en/wb-migration-wizard-migration.html) may help here.
+- [MySQL Workbench](https://dev.mysql.com/doc/workbench/en/wb-migration-database-postgresql.html) offers
+  a Postgres migration path, among others.
 
 ### Backup and Recovery
 

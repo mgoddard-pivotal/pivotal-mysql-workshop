@@ -81,3 +81,30 @@ mysqld  9458 vcap   49uW  REG             202,81     98304  131153 /var/vcap/sto
 mysql/c674fd34-978e-4b86-8abe-cd6966ce248f:~#
 ```
 
+## Discussion around the topic of logs
+
+We don’t expose logs to the developer presently although we have stories in our
+icebox around this - particularly around the slow query log.
+
+The error log and slow query log are stored in `/var/vcap/sys/log/[pxc-]mysql`
+in `mysql.err.log` and `mysql_slow_query.log` respectively.
+
+We do not enable the general query log, but do enable Percona’s audit log
+plugin which is similar.  This is currently a bit inconsistently stored across
+plans in `/var/vcap/sys/log/mysql/mysql_audit_log` for MySQL v2 plans and on
+persistent disk in `/var/vcap/store/mysql_audit_logs/mysql_server_audit.log*`
+for PXC/Galera plans.  Also, note that The BOSH stemcell symlinks
+```
+/var/vcap/sys -> /var/vcap/data/sys/
+```
+
+The DDL log (from the documentation link) isn’t terribly interesting since it’s
+an implementation detail of crash recovery.
+
+The binary logs are stored in the data directory
+(`/var/vcap/store/[pxc-]mysql[/data]`), but, of course, could be streamed with
+the right remote user privileges.  We do not currently expose a MySQL user
+capable of binlog streaming in our product.  The PMs are aware of the gap for
+CDC workloads.
+
+

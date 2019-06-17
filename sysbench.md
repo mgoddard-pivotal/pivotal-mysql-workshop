@@ -14,7 +14,7 @@
 
 * Run sysbench to generated the data set:
   ```
-  mysql/c674fd34-978e-4b86-8abe-cd6966ce248f:~$ sysbench --mysql-host=127.0.0.1 --table_size=1000000 \
+  $ sysbench --mysql-host=127.0.0.1 --table_size=1000000 \
     --db-driver=mysql --mysql-db=service_instance_db --mysql-user=44595ed22e1e42f49192251d59ff8c2f \
     --mysql-password=mcwdz7psx97j38a4 /usr/share/sysbench/oltp_read_write.lua prepare
   ```

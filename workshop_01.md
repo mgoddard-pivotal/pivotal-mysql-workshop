@@ -56,6 +56,8 @@ or via `update-service`:
 $ cf create-service p.mysql dev-db-medium dev-002 -c '{ "workload": "write-heavy" }'
 ```
 
+TODO: install sysbench onto the MySQL instance VM and run the test suite.
+
 The Pivotal MySQL team uses sysbench to benchmark MySQL.  The approach is documented
 [here](https://www.howtoforge.com/how-to-benchmark-your-system-cpu-file-io-mysql-with-sysbench#-mysql-benchmark)
 and the project's GitHub repo is [here](https://github.com/akopytov/sysbench).  The team said the following
@@ -187,6 +189,12 @@ mysql>
 ```
 
 ### Demonstrate transparent impact / level of impact to application during the following:
+
+TODO: do the upgrade and show an app running simultaneously.
+
+The upgrade process has two parts. The procedure is documented [here](https://docs.pivotal.io/p-mysql/2-5/upgrade.html).
+1. Install the new version of the Pivotal MySQL tile: see _Upgrade MySQL for PCF_ in the above link.
+1. Upgrade all of the existing MySQL Instances.
 
 * Application perform read & write during DB Upgrade / Patching
 * Application perform read & write during DB Recovery

@@ -34,7 +34,8 @@ class Book(peewee.Model):
   class Meta:
     database = db
 
-Book.create_table()
+if not Book.table_exists():
+  Book.create_table()
 Book.truncate_table()
 
 # Insert some books

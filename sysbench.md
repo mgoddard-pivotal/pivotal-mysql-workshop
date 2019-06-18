@@ -8,7 +8,11 @@
   - [sysbench install files](https://hooli-roof.s3.amazonaws.com/sysbench/sysbench_files.tar.gz)
     Untar this file in / as root
   - [sysbench lib deps](https://hooli-roof.s3.amazonaws.com/sysbench/sysbench_libs.tar.gz)
-    Untar this file in /tmp, then cd into the new directory, and `export LD_LIBRARY_PATH=$PWD`
+    Untar this file in your `$HOME` directory (**not /tmp**), then cd into the new directory,
+    and `export LD_LIBRARY_PATH=$PWD`
+
+* Edit [this script](./run_sysbench.sh) to suit your environment and test requirement, then run
+  it on the MySQL VM (again, in `$HOME`).
 
 ## Running: read/write
 

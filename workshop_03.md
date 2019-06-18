@@ -16,9 +16,15 @@ Refer to [this section](./workshop_02.md#setup-galera-ha-cluster).
 
 ### Backup and Recovery
 
+Refer to [this section](./workshop_02.md#backup-&-restore)
+
 ### Performance tuning
 
+Refer to [this section](./workshop_02.md#demonstrate-the-monitoring-and-performance-tuning)
+
 ### DB Monitoring (PMM from Percona is on the roadmap)
+
+Refer to [this section](./workshop_02.md#backup-&-restore)
 
 ### Security (Local account, AD or LDAP)
 
@@ -126,7 +132,7 @@ Ref. https://docs.oracle.com/cd/E12151_01/doc.150/e12155/oracle_mysql_compared.h
 
 ### Patch release frequency
 - Quarterly releases
-- We strive for a 48 turnaround for CVEs, and these tend to be in the stemcells rather than the MySQL component specifically
+- We strive for a 48 hour turnaround for CVEs, and these tend to be in the stemcells rather than the MySQL component specifically
 
 ### Patching methods
 - Ref. https://docs.pivotal.io/p-mysql/2-5/upgrade.html

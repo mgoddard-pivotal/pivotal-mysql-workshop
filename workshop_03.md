@@ -24,7 +24,7 @@ Refer to [this section](./workshop_02.md#demonstrate-the-monitoring-and-performa
 
 ### DB Monitoring (PMM from Percona is on the roadmap)
 
-Refer to [this section](./workshop_02.md#backup-&-restore)
+Refer to [this section](./workshop_02.md#demonstrate-the-monitoring-and-performance-tuning)
 
 ### Security (Local account, AD or LDAP)
 

@@ -124,6 +124,7 @@ Ref. https://docs.oracle.com/cd/E12151_01/doc.150/e12155/oracle_mysql_compared.h
 
 * [Here's](https://dev.mysql.com/doc/refman/5.7/en/server-logs.html) a reference on MySQL logs
 * [Here](./access_mysql_instance_logs.md) is a walk-through of accessing MySQL instance logs.
+* [MySQL Audit Logs](https://www.percona.com/doc/percona-server/5.7/management/audit_log_plugin.html)
 
 ### Support feature for installing DB in physical or virtual environment
 
@@ -133,6 +134,7 @@ Ref. https://docs.oracle.com/cd/E12151_01/doc.150/e12155/oracle_mysql_compared.h
 ### Patch release frequency
 - Quarterly releases
 - We strive for a 48 hour turnaround for CVEs, and these tend to be in the stemcells rather than the MySQL component specifically
+- [Pivotal Security](https://pivotal.io/security) page
 
 ### Patching methods
 - Ref. https://docs.pivotal.io/p-mysql/2-5/upgrade.html

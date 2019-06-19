@@ -18,4 +18,5 @@ points of this workshop.
 * [Some Q&A](./galera_questions_answers.md) about Galera clusters
 * [Restoring from backup](./restore_from_backup.md)
 * [Pivotal MySQL YouTube playlist](https://www.youtube.com/playlist?list=PL3edG0WQH3gL-07rQrABRJ1SkX0zz7deY)
+* [Example of viewing the audit log](./audit_log_example.md)
 

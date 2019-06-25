@@ -43,3 +43,14 @@ Create a route for that service instance via the [Routing API](https://github.co
       }
     }]'
     ```
+
+### Connect to MySQL
+
+1. Create a service key
+    > cf create-service-key mysqlDB cli-key
+1. Get the username/pw
+    > cf service-key mysqlDB cli-key
+1. Connect to MySQL
+    > mysql -uUSERNAME -h tcp.pcf.system-domain.com -P 1034  -p
+    
+**Note:** Per above, the route registration API must be repeated every < 120 sec or new connections will not be routed to the VM's IP address.

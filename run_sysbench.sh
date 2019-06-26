@@ -1,7 +1,7 @@
 #!/bin/bash
 
-user=9c1b47f17bba4f689c8f081aab9ae5e8
-passwd=n8pi84yyj21ii6ip
+user=3250a895faec44ce803f93a3418845d7
+passwd=g5e729abtlh8nhyq
 n_rows=1000000
 
 # Options for test_file:
